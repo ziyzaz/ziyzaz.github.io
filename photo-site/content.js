@@ -27,24 +27,30 @@ window.SITE = {
   // ---------- 作品系列：全部显示在 Photographs 页面里 ----------
   // 第一个系列的封面会作为网站首页的大图。
   // 每个系列的封面默认是第一张照片；想用别的照片当封面，加一行 cover: "images/series-one/05.jpg",
-  series: [
+   series: [
     {
-      slug: "series-one",              // 网址里用的名字，只用小写字母、数字和横线
-      title: { en: "Series One", zh: "系列一", pt: "Série Um", es: "Serie Uno" },
-      year: "2024–2026",
+      slug: "Farewell",              // 网址里用的名字，只用小写字母、数字和横线
+      title: { en: "Farewell", zh: "告别", pt: "Despedida", es: "Despedida" },
+      year: "2021",
       statement: {
-        en: "Replace this with a short text about the series, around 100 to 200 words. Say where and when the pictures were made, what drew you to the subject, and what you want a viewer to notice.\n\nA second paragraph can describe the process: the camera, the light, how long you spent with the place or the people.",
-        zh: "这里替换成这个系列的简短介绍，大约 100 到 200 字。说明照片在哪里、什么时候拍的，是什么吸引你拍这个题材，以及你希望观看者注意到什么。\n\n第二段可以写创作过程：使用的相机、光线，以及你在这个地方或和这些人一起度过了多长时间。",
-        pt: "Substitua por um texto curto sobre a série, entre 100 e 200 palavras. Diga onde e quando as fotografias foram feitas, o que a atraiu ao tema e o que você quer que o público perceba.\n\nUm segundo parágrafo pode descrever o processo: a câmera, a luz, quanto tempo você passou com o lugar ou com as pessoas.",
-        es: "Sustituye esto por un texto breve sobre la serie, de unas 100 a 200 palabras. Cuenta dónde y cuándo se hicieron las fotografías, qué te atrajo del tema y qué quieres que note quien las mira.\n\nUn segundo párrafo puede describir el proceso: la cámara, la luz, cuánto tiempo pasaste con el lugar o con las personas."
+        en: "One midsummer in Beijing, I began to learn photography as a third organ of breath, and the film camera grew into a new sense. At the parting, four years flared and shimmered like firelight, and I breathed in great, glad gulps, hoping to hold on to the traces of our meeting.\n\nThe pictures came in short, abundant bursts, like an iced lemonade after a summer day of pouring sweat.",
+        zh: "在北京的一个盛夏，开始习得摄影作为呼吸的第三个器官，胶片相机长成新的感官，四年的时光在分别时火光潋滟，大口畅快地呼吸希望留住相遇的印记。\n\n短促而大量的拍摄，如经历夏日大汗淋漓后的柠檬冰水。",
+        pt: "Em pleno verão, em Pequim, comecei a aprender a fotografia como um terceiro órgão da respiração, e a câmera analógica cresceu em mim como um novo sentido. Na despedida, quatro anos cintilaram como chamas, e eu respirava a plenos pulmões, querendo guardar as marcas dos nossos encontros.\n\nDisparos breves e numerosos, como uma limonada gelada depois de um dia de verão encharcado de suor.",
+        es: "En pleno verano, en Pekín, empecé a aprender la fotografía como un tercer órgano de la respiración, y la cámara analógica se convirtió en un nuevo sentido. En la despedida, cuatro años centellearon como llamas, y yo respiraba a pleno pulmón, queriendo guardar las huellas de nuestros encuentros.\n\nDisparos breves y numerosos, como una limonada helada después de un día de verano empapado en sudor."
       },
       images: [
-        { file: "images/series-one/01.jpg", caption: { en: "Untitled, 2024", zh: "无题，2024", pt: "Sem título, 2024", es: "Sin título, 2024" } },
-        { file: "images/series-one/02.jpg", caption: { en: "Untitled, 2024", zh: "无题，2024", pt: "Sem título, 2024", es: "Sin título, 2024" } },
-        { file: "images/series-one/03.jpg", caption: { en: "Untitled, 2025", zh: "无题，2025", pt: "Sem título, 2025", es: "Sin título, 2025" } },
-        { file: "images/series-one/04.jpg", caption: { en: "Untitled, 2025", zh: "无题，2025", pt: "Sem título, 2025", es: "Sin título, 2025" } },
-        { file: "images/series-one/05.jpg", caption: { en: "Untitled, 2025", zh: "无题，2025", pt: "Sem título, 2025", es: "Sin título, 2025" } },
-        { file: "images/series-one/06.jpg", caption: { en: "Untitled, 2026", zh: "无题，2026", pt: "Sem título, 2026", es: "Sin título, 2026" } }
+        { file: "images/series-one/01.jpg", caption: { en: "Dragon Boat Festival stall, 2021", zh: "端午节小摊，2021", pt: "Barraca do Festival do Barco-Dragão, 2021", es: "Puesto del Festival del Barco del Dragón, 2021" } },
+        { file: "images/series-one/02.jpg", caption: { en: "Graduation photo, 2021", zh: "毕业照，2021", pt: "Foto de formatura, 2021", es: "Foto de graduación, 2021" } },
+        { file: "images/series-one/03.jpg", caption: { en: "Billboard truck, 2021", zh: "广告车，2021", pt: "Caminhão de propaganda, 2021", es: "Camión publicitario, 2021" } },
+        { file: "images/series-one/04.jpg", caption: { en: "Blue Harbour, 2021", zh: "蓝色港湾，2021", pt: "Porto Azul, 2021", es: "Puerto Azul, 2021" } },
+        { file: "images/series-one/05.jpg", caption: { en: "Conjoined buildings, 2021", zh: "连体楼，2021", pt: "Prédios siameses, 2021", es: "Edificios siameses, 2021" } },
+        { file: "images/series-one/06.jpg", caption: { en: "Shrubs by the bus stop, 2021", zh: "公交车站旁的灌木，2021", pt: "Arbustos junto ao ponto de ônibus, 2021", es: "Arbustos junto a la parada de autobús, 2021" } },
+        { file: "images/series-one/07.jpg", caption: { en: "Stretching, 2021", zh: "拉伸，2021", pt: "Alongamento, 2021", es: "Estiramiento, 2021" } },
+        { file: "images/series-one/08.jpg", caption: { en: "Long jump, 2021", zh: "跳远，2021", pt: "Salto em distância, 2021", es: "Salto de longitud, 2021" } },
+        { file: "images/series-one/09.jpg", caption: { en: "Reign, 2021", zh: "统治，2021", pt: "Reinado, 2021", es: "Reinado, 2021" } },
+        { file: "images/series-one/10.jpg", caption: { en: "Humanities, pink-collar, 2021", zh: "文科粉领，2021", pt: "Humanas, colarinho-rosa, 2021", es: "Letras, cuello rosa, 2021" } },
+        { file: "images/series-one/11.jpg", caption: { en: "Look at me, just once, 2021", zh: "看我一眼，2021", pt: "Olhe para mim, só uma vez, 2021", es: "Mírame, solo una vez, 2021" } },
+        { file: "images/series-one/12.jpg", caption: { en: "Final chapter, 2021", zh: "终章，2021", pt: "Capítulo final, 2021", es: "Capítulo final, 2021" } }
       ]
     },
     {
