@@ -5,6 +5,7 @@
   var main = document.getElementById("main");
   var LANGS = S.languages || ["en"];
   var state = { slug: null, i: 0, mode: "images", lang: LANGS[0] };
+  var jumpTo = null;   // picture to open first when coming from the home slideshow
 
   // Interface words in each language. Add a language here if you add one to content.js.
   var UI = {
@@ -58,7 +59,7 @@
     var img = el("img", { src: src, alt: alt || "" });
     if (lazy) img.loading = "lazy";
     img.onerror = function () {
-      var ph = el("div", { "class": "ph" + (n % 3 === 1 ? " tall" : ""), role: "img", "aria-label": alt || "" }, [src]);
+      var ph = el("div", { "class": "ph" + (n % 3 === 1 ? " tall" : "") + (img.className ? " " + img.className : ""), role: "img", "aria-label": alt || "" }, [src]);
       ph.onclick = img.onclick;
       if (img.parentNode) img.parentNode.replaceChild(ph, img);
     };
@@ -108,17 +109,75 @@
   }
 
   // ---------- pages ----------
+  // ---------- home: slideshow ----------
+  var SLIDE_MS = 3500;     // 每张照片停留的时间（毫秒），5000 = 5 秒
+  var timer = null;
+  function stopTimer() { if (timer) { clearInterval(timer); timer = null; } }
+
+  // Find which series a picture belongs to, so the slideshow can name it and link to it.
+  function lookup(file) {
+    for (var a = 0; a < S.series.length; a++) {
+      var imgs = S.series[a].images;
+      for (var b = 0; b < imgs.length; b++) if (imgs[b].file === file) return { file: file, s: S.series[a], i: b, cap: imgs[b].caption };
+    }
+    return { file: file, s: null, i: 0, cap: "" };
+  }
+
+  // The pictures listed in SITE.home, or the cover of every series if that list is missing.
+  function slideList() {
+    if (S.home && S.home.length) return S.home.map(lookup);
+    return S.series.filter(function (s) { return s.images.length; }).map(function (s) {
+      return lookup(s.cover || s.images[0].file);
+    });
+  }
+
   function home() {
-    var s = S.series[0];
-    if (!s || !s.images.length) { main.appendChild(el("p", { text: "Add a series in content.js." })); return; }
-    var img = photo(s.cover || s.images[0].file, t(s.images[0].caption), 0);
-    img.onclick = function () { location.hash = s.slug; };
-    main.appendChild(el("div", { "class": "stage" }, [
-      el("div", { "class": "frame" }, [img]),
-      el("div", { "class": "bar" }, [
-        el("div", { "class": "home-caption" }, [el("a", { href: "#" + s.slug, text: t(s.title) }), ", " + t(s.year)])
-      ])
-    ]));
+    var items = slideList();
+    if (!items.length) { photographsPage(); return; }
+    var cur = 0, paused = false;
+
+    var box = el("div", { "class": "slides", "aria-live": "off" });
+    items.forEach(function (it, n) {
+      var img = photo(it.file, t(it.cap) || (it.s ? t(it.s.title) : ""), n);
+      if (n === 0) img.className = "on";
+      img.onclick = function () { open(it); };
+      box.appendChild(img);
+    });
+
+    var cap = el("div", { "class": "caption" });
+    var dots = el("div", { "class": "dots", role: "group", "aria-label": u("images") });
+    items.forEach(function (it, n) {
+      dots.appendChild(el("button", { type: "button", "aria-label": String(n + 1),
+        on: { click: function () { show(n); restart(); } } }));
+    });
+
+    function open(it) {
+      if (!it.s) return;
+      jumpTo = it.i;
+      location.hash = it.s.slug;
+    }
+    function show(n) {
+      cur = (n + items.length) % items.length;
+      Array.prototype.forEach.call(box.children, function (c, k) { c.classList.toggle("on", k === cur); });
+      Array.prototype.forEach.call(dots.children, function (d, k) { d.setAttribute("aria-current", String(k === cur)); });
+      var it = items[cur];
+      cap.innerHTML = "";
+      if (it.s) {
+        cap.appendChild(el("a", { href: "#" + it.s.slug, text: t(it.s.title),
+          on: { click: function (e) { e.preventDefault(); open(it); } } }));
+        if (t(it.cap)) cap.appendChild(document.createTextNode("  ·  " + t(it.cap)));
+      }
+    }
+    function restart() {
+      stopTimer();
+      if (items.length > 1) timer = setInterval(function () { if (!paused) show(cur + 1); }, SLIDE_MS);
+    }
+    box.addEventListener("mouseenter", function () { paused = true; });
+    box.addEventListener("mouseleave", function () { paused = false; });
+
+    main.appendChild(el("div", { "class": "stage" }, [box, el("div", { "class": "bar" }, [cap, items.length > 1 ? dots : null])]));
+    show(0);
+    restart();
   }
 
   // Overview of all series: cover picture, title and year. The cover is the series' "cover" file, or its first image.
@@ -226,10 +285,12 @@
 
   function render() {
     var route = decodeURIComponent(location.hash.replace(/^#/, ""));
+    stopTimer();
     main.innerHTML = "";
     var s = series(route);
     if (s) {
       if (state.slug !== route) { state.slug = route; state.i = 0; state.mode = "images"; }
+      if (jumpTo !== null) { state.i = jumpTo; state.mode = "images"; jumpTo = null; }
       seriesPage(s);
       document.title = t(s.title) + " — " + t(S.name);
     } else {
